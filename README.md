@@ -1,11 +1,23 @@
-# 🚀 CryptoDash - Real-Time Crypto Analytics
+# 🚀 CryptoDash - Real-Time Analytics
 
-Um dashboard interativo para análise de criptomoedas em tempo real, desenvolvido com Streamlit e Python.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://crypto-dashboard-jvjxcxcfzrz5bvk5zigjju.streamlit.app/)
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28-red)
-![Docker](https://img.shields.io/badge/Docker-Ready-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+🔗 **[🌐 Ver Demo Online](https://crypto-dashboard-jvjxcxcfzrz5bvk5zigjju.streamlit.app/)**
+
+Dashboard profissional para análise de criptomoedas em tempo real demonstrando competências em:
+
+- 📊 Visualização de dados com Plotly
+- 🔄 APIs e integração em tempo real
+- 🐳 DevOps com Docker e CI/CD
+- 🧪 Testes automatizados
+- ⚡ Deploy em produção
+
+## 🛠️ Tecnologias
+
+- Python, Streamlit, Plotly, Pandas
+- GitHub Actions (CI/CD)
+- Docker
+- CoinGecko API
 
 ## ✨ Funcionalidades
 
