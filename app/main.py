@@ -7,7 +7,6 @@ import time
 import json
 from datetime import datetime, timedelta
 from typing import Dict, List
-import json
 
 # Configuração da página
 st.set_page_config(
@@ -127,41 +126,6 @@ def create_change_chart(data: Dict) -> go.Figure:
 
     return fig
 
-def main():
-    # Header
-    st.title("🚀 CryptoDash - Real-Time Analytics")
-    st.markdown("Dashboard profissional para análise de criptomoedas em tempo real")
-
-    # Sidebar
-    st.sidebar.header("⚙️ Configurações")
-
-    # Seleção de criptomoedas
-    available_cryptos = ['BTC', 'ETH', 'ADA', 'DOT', 'SOL']
-    selected_cryptos = st.sidebar.multiselect(
-        "Selecionar Criptomoedas:",
-        available_cryptos,
-        default=['BTC', 'ETH', 'ADA']
-    )
-
-    if not selected_cryptos:
-        st.warning("Por favor, selecione pelo menos uma criptomoeda.")
-        return
-
-    # Auto-refresh
-    auto_refresh = st.sidebar.checkbox("Auto-refresh (60s)", value=True)
-
-    if auto_refresh:
-        # Placeholder para auto-refresh
-        placeholder = st.empty()
-
-        # Loop de refresh
-        for i in range(60):
-            with placeholder.container():
-                display_dashboard(selected_cryptos)
-            time.sleep(1)
-    else:
-        display_dashboard(selected_cryptos)
-
 def display_dashboard(selected_cryptos: List[str]):
     """Exibir dashboard principal"""
 
@@ -177,7 +141,6 @@ def display_dashboard(selected_cryptos: List[str]):
         if symbol in crypto_data:
             data = crypto_data[symbol]
             with cols[i]:
-                change_color = "normal" if data['change_24h'] >= 0 else "inverse"
                 st.metric(
                     label=f"{symbol}",
                     value=f"${data['price']:,.2f}",
@@ -189,11 +152,11 @@ def display_dashboard(selected_cryptos: List[str]):
 
     with col1:
         price_chart = create_price_chart(crypto_data)
-        st.plotly_chart(price_chart, use_container_width=True)
+        st.plotly_chart(price_chart, use_container_width=True, key="price_chart")
 
     with col2:
         change_chart = create_change_chart(crypto_data)
-        st.plotly_chart(change_chart, use_container_width=True)
+        st.plotly_chart(change_chart, use_container_width=True, key="change_chart")
 
     # Tabela detalhada
     st.subheader("📋 Dados Detalhados")
@@ -215,17 +178,48 @@ def display_dashboard(selected_cryptos: List[str]):
 
     # Alertas
     st.subheader("🚨 Alertas")
-    for symbol in selected_cryptos:
-        if symbol in crypto_data:
-            change = crypto_data[symbol]['change_24h']
-            if abs(change) > 5:
-                alert_type = "🔥" if change > 0 else "❄️"
-                st.info(f"{alert_type} {symbol}: {change:+.2f}% nas últimas 24h")
+    alert_container = st.container()
+    with alert_container:
+        for symbol in selected_cryptos:
+            if symbol in crypto_data:
+                change = crypto_data[symbol]['change_24h']
+                if abs(change) > 5:
+                    alert_type = "🔥" if change > 0 else "❄️"
+                    st.info(f"{alert_type} {symbol}: {change:+.2f}% nas últimas 24h")
 
     # Footer
     st.markdown("---")
     st.markdown("**Última atualização:** " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     st.markdown("*Dados fornecidos pela CoinGecko API*")
+
+def main():
+    # Header
+    st.title("🚀 CryptoDash - Real-Time Analytics")
+    st.markdown("Dashboard profissional para análise de criptomoedas em tempo real")
+
+    # Sidebar
+    st.sidebar.header("⚙️ Configurações")
+
+    # Seleção de criptomoedas
+    available_cryptos = ['BTC', 'ETH', 'ADA', 'DOT', 'SOL']
+    selected_cryptos = st.sidebar.multiselect(
+        "Selecionar Criptomoedas:",
+        available_cryptos,
+        default=['BTC', 'ETH', 'ADA'],
+        key="crypto_selector"
+    )
+
+    if not selected_cryptos:
+        st.warning("Por favor, selecione pelo menos uma criptomoeda.")
+        return
+
+    # Botão de refresh manual
+    if st.sidebar.button("🔄 Atualizar Dados", key="refresh_button"):
+        st.cache_data.clear()
+        st.rerun()
+
+    # Exibir dashboard
+    display_dashboard(selected_cryptos)
 
 if __name__ == "__main__":
     main()
