@@ -45,7 +45,7 @@ Dashboard profissional para análise de criptomoedas em tempo real demonstrando 
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-utilizador/crypto-dashboard.git
+git clone https://github.com/MPrazeres-1983/crypto-dashboard.git
 cd crypto-dashboard
 
 # Instale as dependências
