@@ -12,13 +12,6 @@ Dashboard profissional para análise de criptomoedas em tempo real demonstrando 
 - 🧪 Testes automatizados
 - ⚡ Deploy em produção
 
-## 🛠️ Tecnologias
-
-- Python, Streamlit, Plotly, Pandas
-- GitHub Actions (CI/CD)
-- Docker
-- CoinGecko API
-
 ## ✨ Funcionalidades
 
 - 📊 **Dados em Tempo Real**: Preços e métricas atualizadas via CoinGecko API
