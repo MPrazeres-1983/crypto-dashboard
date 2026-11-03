@@ -31,11 +31,11 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m pytest tests/ -v --tb=short || echo "Tests completed with warnings"
+        python -m pytest tests/ -v --tb=short
 
     - name: Lint with flake8
       run: |
-        flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics || echo "Linting completed"
+        flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics
 
   build:
     needs: test
@@ -47,8 +47,8 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -f docker/Dockerfile -t crypto-dashboard . || echo "Docker build completed"
+        docker build -f docker/Dockerfile -t crypto-dashboard .
 
     - name: Test Docker image
       run: |
-        echo "Docker tests would run here"
+        docker image inspect crypto-dashboard --format "{{.Id}}"
