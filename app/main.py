@@ -61,15 +61,10 @@ def fetch_crypto_data(symbols: List[str]) -> Dict:
 
         return result
 
-    except Exception as e:
-        st.error(f"Erro ao buscar dados: {str(e)}")
-        # Retornar dados mock em caso de erro
-        return {symbol: {
-            'price': 50000 + hash(symbol) % 10000,
-            'change_24h': (hash(symbol) % 20) - 10,
-            'market_cap': 1000000000,
-            'volume_24h': 50000000
-        } for symbol in symbols}
+    except (requests.RequestException, ValueError, KeyError, TypeError) as exc:
+        st.error(f"Não foi possível obter dados reais da CoinGecko: {exc}")
+        # Nunca apresentar preços fictícios como se fossem dados de mercado.
+        return {}
 
 def create_price_chart(data: Dict) -> go.Figure:
     """Criar gráfico de preços"""
@@ -132,6 +127,10 @@ def display_dashboard(selected_cryptos: List[str]):
     # Buscar dados
     with st.spinner("Carregando dados..."):
         crypto_data = fetch_crypto_data(selected_cryptos)
+
+    if not crypto_data:
+        st.warning("Sem dados de mercado válidos. Tente atualizar mais tarde.")
+        return
 
     # Métricas principais
     st.subheader("📊 Métricas Principais")
